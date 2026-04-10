@@ -53,12 +53,16 @@ else:
         )
         save_tokens(new_tokens)
         tokens = new_tokens
-        print("Token rafraîchi !")  
+        print("Token rafraîchi !")
 
 client.access_token = tokens['access_token']
 
-activities = client.get_activities(after=(datetime.datetime.now() - datetime.timedelta(days=1)))
-#activities = client.get_activities()
-activities.limit = 10
-for activity in activities:
-  print(f"Activity ID: {activity.id}")
+def get_day_activities():
+    activities = client.get_activities(after=(datetime.datetime.now() - datetime.timedelta(days=1)))
+    activities.limit = 10
+    activities_list = []
+    for activity in activities:
+        activities_list.append(activity)
+    return activities_list
+
+print (get_day_activities())
