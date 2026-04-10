@@ -10,7 +10,6 @@ load_dotenv()
 STRAVA_TOKEN_FILE = 'strava_token.json'
 STRAVA_CLIENT_ID = os.getenv('STRAVA_CLIENT_ID')
 STRAVA_CLIENT_SECRET = os.getenv('STRAVA_CLIENT_SECRET')
-STRAVA_CODE = os.getenv('STRAVA_CODE')
 
 client = stravalib.Client()
 
@@ -56,8 +55,10 @@ else:
         tokens = new_tokens
         print("Token rafraîchi !")  
 
-#activities = client.get_activities(after=(datetime.datetime.now() - datetime.timedelta(days=1)))
-activities = client.get_activities()
+client.access_token = tokens['access_token']
+
+activities = client.get_activities(after=(datetime.datetime.now() - datetime.timedelta(days=1)))
+#activities = client.get_activities()
 activities.limit = 10
 for activity in activities:
   print(f"Activity ID: {activity.id}")
